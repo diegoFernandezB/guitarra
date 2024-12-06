@@ -10,6 +10,9 @@ function App() {
   const [data, setData] = useState(db)
   const [cart, setCart] = useState([])
 
+  const MAX_ITEMS = 4
+  const MIN_ITEMS = 0
+
   function addToCard(item){
     
     const itemExists = cart.findIndex(guitar=>guitar.id === item.id)
@@ -27,6 +30,29 @@ function App() {
     setCart(prevCart=> prevCart.filter(guitar => guitar.id !== id))
   }
 
+  function increaseQuantity(id){
+    console.log("incrementando", id)
+    const updateCart = cart.map(item =>{
+      if (item.id === id && item.quantity < MAX_ITEMS){
+        return {...item, quantity: item.quantity + 1}//toma los otros componentes de carrito y quantity lo actualiza
+      }
+      return item //toma los otros componentes de carrito
+    })
+    setCart(updateCart) 
+  }
+
+  function decreaseQuantity(id){
+    const updateCart2 = cart.map(item =>{
+      if(item.id === id && item.quantity > MIN_ITEMS){
+        return{
+          ...item,
+          quantity: item.quantity - 1}    
+        }
+      return item
+    })
+    setCart(updateCart2)
+  }
+
 
   return (
     <>
@@ -34,6 +60,8 @@ function App() {
     < Header
     cart={cart} 
     removeFromCart={removeFromCart}
+    increaseQuantity={increaseQuantity}
+    decreaseQuantity={decreaseQuantity}
     /> 
        
     
