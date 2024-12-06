@@ -5,18 +5,23 @@ import { db } from './data/db'
 
 
 function App() {
- 
+  const initialCart = () => {
+    const localStorageCart = localStorage.getItem('cart')
+    return localStorageCart? JSON.parse(localStorageCart) : []
+  }
 
-  const [data, setData] = useState(db)
-  const [cart, setCart] = useState([])
+  const [data] = useState(db)
+  const [cart, setCart] = useState(initialCart)
 
   const MAX_ITEMS = 4
   const MIN_ITEMS = 1
 
+  useEffect(()=>{
+    localStorage.setItem('cart', JSON.stringify(cart))
+  },[cart] )
+
   function addToCard(item){
-    
     const itemExists = cart.findIndex(guitar=>guitar.id === item.id)
-    console.log(itemExists)
     if(itemExists >= 0){
       if(cart[itemExists].quantity >= MAX_ITEMS)return
       const updateCart = [...cart]
@@ -55,6 +60,10 @@ function App() {
     setCart(updateCart)
   }
 
+  function clearCart(){
+    setCart([])
+  }
+
 
   return (
     <>
@@ -64,6 +73,7 @@ function App() {
     removeFromCart={removeFromCart}
     increaseQuantity={increaseQuantity}
     decreaseQuantity={decreaseQuantity}
+    clearCart={clearCart}
     /> 
        
     
