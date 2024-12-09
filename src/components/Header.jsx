@@ -1,9 +1,5 @@
-import { useMemo } from "react"
 
-export default function  Header({cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart}){
-
-    const isEmpty = useMemo(() => cart.length === 0,[cart])
-    const cartTotaL = useMemo(() => cart.reduce((total, item) => total + (item.quantity*item.price),0),[cart])
+export default function  Header({cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart, isEmpty, cartTotaL}){
 
     return(//encapsulando dos elementos en el nivel maximo en un div 
         <header className="py-5 header">
